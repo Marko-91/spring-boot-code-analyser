@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div th:switch="${students}">
+        <h2 th:case="null">No users yet!</h2>
+        <div th:case="*">
+            <h2 class="mx-auto mb-3">Students</h2>
+            <table class="table table-dark table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${students}">
+                    <td><a th:text="${student.name}" th:href="@{/student/{id}(id=${student.id})}"></a></td>
+                    <td th:text="${student.email}"></td>
+                    <td><a class="btn btn-outline-info btn-block text-light" th:href="@{/edit/{id}(id=${student.id})}">Edit</a></td>
+                    <td><a class="text-light btn btn-outline-warning btn-block" th:href="@{/delete/{id}(id=${student.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><a href="/signup">Add a new user</a></p>
+    </div>
+</div>
+</body>
+</html>
