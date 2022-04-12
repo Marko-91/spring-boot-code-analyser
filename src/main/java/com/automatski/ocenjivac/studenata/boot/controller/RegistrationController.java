@@ -4,23 +4,20 @@ import com.automatski.ocenjivac.studenata.boot.entity.Student;
 import com.automatski.ocenjivac.studenata.boot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.List;
 
-@Controller
+@RestController
 public class RegistrationController {
 
     @Autowired
@@ -30,68 +27,30 @@ public class RegistrationController {
     @Value("${spring.application.name}")
     private String appName;
 
-    @GetMapping("/index")
-    public String showStudentsList(Model model) {
-        model.addAttribute("students", studentService.fetchAllStudents());
-        return "index";
-    }
-
-    @GetMapping("/signup")
-    public String signUpStudent(Student student) {
-        return "signup";
+    @GetMapping("/students")
+    public List<Student> getAllStudents(Student student) {
+        return studentService.fetchAllStudents();
     }
 
     @PostMapping("/add-student")
-    public String addStudent(Student l_student, BindingResult result) throws IOException {
-        if (result.hasErrors()) {
-            return "signup";
-        }
-
-        String s = l_student.getMyJavaTest();
-        System.out.println("My java test: " + s);
-
-
-        studentService.saveStudent(l_student);
-        return "redirect:/index";
+    public Student addStudent(@RequestBody Student l_student, BindingResult result) throws IOException {
+        return studentService.saveStudent(l_student);
     }
 
-    @GetMapping("/edit/{id}")
-    public String renderUpdateForm(@PathVariable("id") long id, Model model) {
-        Student l_student = studentService.findById(id);
-
-        model.addAttribute("student", l_student);
-        return "edit";
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Student> editStudent(@PathVariable("id") long id,
+                                               @RequestBody Student student, BindingResult result) {
+        return studentService.editStudent(id, student);
     }
 
-    @PostMapping("/edit/{id}")
-    public String editStudent(@PathVariable("id") long id,
-                              Student student, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
-            student.setId(id);
-            return "edit";
-        }
-
-        studentService.saveStudent(student);
-
-        return "redirect:/index";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable("id") long id, Model model) {
+    @DeleteMapping("/delete/{id}")
+    public void deleteStudent(@PathVariable("id") long id) {
         studentService.deleteStudentById(id);
-        return "redirect:/index";
     }
 
     @GetMapping("/student/{id}")
-    public String renderStudentDashboard(@PathVariable("id") long id, Model model) throws IOException {
-        Student l_student = studentService.findById(id);
-
-        model.addAttribute("student", l_student);
-        String file = l_student.getMyJavaTest();
-
-        model.addAttribute("javacode", file);
-        return "student-dashboard";
+    public Student getById(@PathVariable("id") Long id) throws IOException {
+        return studentService.fetchStudentById(id);
     }
 
 

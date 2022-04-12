@@ -1,10 +1,9 @@
 package com.automatski.ocenjivac.studenata.boot.service;
 
 import com.automatski.ocenjivac.studenata.boot.entity.Student;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentService {
 
@@ -13,13 +12,12 @@ public interface StudentService {
 
     List<Student> fetchAllStudents();
 
-    Student editStudent(Student student, Long studentId);
+    ResponseEntity<Student> editStudent(Long studentId, Student student);
 
     void deleteStudentById(long studentId);
 
     Student saveStudent(Student l_student);
 
-    Student findById(long id);
 
-
+    Student fetchStudentById(Long id);
 }

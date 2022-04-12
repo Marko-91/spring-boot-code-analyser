@@ -3,8 +3,7 @@ package com.automatski.ocenjivac.studenata.boot.service;
 import com.automatski.ocenjivac.studenata.boot.entity.Student;
 import com.automatski.ocenjivac.studenata.boot.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,11 +25,13 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     @Override
-    public Student editStudent(Student student, Long studentId) {
+    public ResponseEntity<Student> editStudent(Long studentId, Student student) {
         Student l_student = studentRepository.findById(studentId).get();
+        l_student.setEmail(student.getEmail());
+        l_student.setName(student.getName());
 
-
-        return studentRepository.save(l_student);
+        Student updatedStudent = studentRepository.save(l_student);
+        return ResponseEntity.ok(updatedStudent);
     }
 
     @Override
@@ -43,11 +44,11 @@ public class StudentServiceImplementation implements StudentService {
         return studentRepository.save(l_student);
     }
 
+
     @Override
-    public Student findById(long id) {
+    public Student fetchStudentById(Long id) {
         return studentRepository.findById(id).get();
     }
-
 
 
 }
