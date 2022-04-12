@@ -26,6 +26,7 @@ public class File {
 
     private String fileName;
     private String fileType;
+    private String grade;
 
     @Lob
     private byte[] data;
