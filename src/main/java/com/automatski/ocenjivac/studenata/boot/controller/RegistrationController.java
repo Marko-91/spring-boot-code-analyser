@@ -1,6 +1,8 @@
 package com.automatski.ocenjivac.studenata.boot.controller;
 
+import com.automatski.ocenjivac.studenata.boot.StudentResponseData;
 import com.automatski.ocenjivac.studenata.boot.entity.Student;
+import com.automatski.ocenjivac.studenata.boot.service.FileService;
 import com.automatski.ocenjivac.studenata.boot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,9 +56,18 @@ public class RegistrationController {
     }
 
 //    @GetMapping("/student/files/{fileId}")
-//    public Student getStudentByFileId(@PathVariable("fileId") String fileId) throws IOException {
+//    public Student getStudentByFileId(@PathVariable("fileId") Long fileId) throws IOException {
 //        return studentService.getStudentByFileId(fileId);
 //    }
+
+    @GetMapping("/testGetFileNames/{studentId}")
+    public String downloadFile(@PathVariable Long studentId) throws Exception {
+
+        List<String> s = studentService.getFileNamesByStudentId(studentId);
+        return s.toString();
+    }
+
+
 
 
 }

@@ -1,8 +1,11 @@
 package com.automatski.ocenjivac.studenata.boot.controller;
 
 import com.automatski.ocenjivac.studenata.boot.ResponseData;
+import com.automatski.ocenjivac.studenata.boot.StudentResponseData;
 import com.automatski.ocenjivac.studenata.boot.entity.Files;
+import com.automatski.ocenjivac.studenata.boot.entity.Student;
 import com.automatski.ocenjivac.studenata.boot.service.FileService;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
@@ -33,8 +38,8 @@ public class FileController {
         l_files = fileService.saveFile(file);
         String downloadUrl = "";
         downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download")
-                .path(l_files.getId())
+                .path("/download/")
+                .path(String.valueOf(l_files.getId()))
                 .toUriString();
 
         return new ResponseData(file.getName(),

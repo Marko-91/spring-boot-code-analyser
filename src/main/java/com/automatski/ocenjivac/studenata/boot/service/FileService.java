@@ -4,6 +4,9 @@ import com.automatski.ocenjivac.studenata.boot.entity.Files;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface FileService {
     Files saveFile(MultipartFile file) throws Exception;
 
@@ -12,4 +15,6 @@ public interface FileService {
     String getFileContentById(String fileId);
 
     ResponseEntity<Files> evaluateFile(String fileId, Files files);
+
+
 }

@@ -1,5 +1,7 @@
 package com.automatski.ocenjivac.studenata.boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +31,7 @@ public class Student {
     private String email;
 
     @OneToMany(mappedBy = "student",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Files> files;
 
 }

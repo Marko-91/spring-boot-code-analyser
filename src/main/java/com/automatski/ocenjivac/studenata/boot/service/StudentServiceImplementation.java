@@ -50,6 +50,16 @@ public class StudentServiceImplementation implements StudentService {
         return studentRepository.findById(id).get();
     }
 
+    @Override
+    public List<String> getFileNamesByStudentId(Long studentId) {
+        return studentRepository.findAllFilesByStudentId(studentId);
+    }
+
+//    @Override
+//    public Student getStudentByFileId(Long fileId) {
+//        return studentRepository.getStudentByFileId(fileId);
+//    }
+
 //    @Override
 //    public Student getStudentByFileId(String fileId) {
 //        return studentRepository.getStudentByFileId(fileId);

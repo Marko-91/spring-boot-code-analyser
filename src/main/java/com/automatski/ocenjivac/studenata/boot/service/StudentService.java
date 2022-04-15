@@ -20,5 +20,7 @@ public interface StudentService {
 
     Student fetchStudentById(Long id);
 
+    List<String> getFileNamesByStudentId(Long studentId);
+
     //Student getStudentByFileId(String fileId);
 }

@@ -9,6 +9,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -31,6 +33,7 @@ public class FileServiceImpl implements FileService {
 
             return fileRepository.save(l_files);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception("Could not save file");
         }
     }
@@ -56,6 +59,8 @@ public class FileServiceImpl implements FileService {
         Files updatedFiles = fileRepository.save(l_files);
         return ResponseEntity.ok(updatedFiles);
     }
+
+
 
     private String oceniRad(String fileContentById) {
         //analiza koda
