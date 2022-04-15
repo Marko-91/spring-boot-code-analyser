@@ -53,5 +53,10 @@ public class RegistrationController {
         return studentService.fetchStudentById(id);
     }
 
+//    @GetMapping("/student/files/{fileId}")
+//    public Student getStudentByFileId(@PathVariable("fileId") String fileId) throws IOException {
+//        return studentService.getStudentByFileId(fileId);
+//    }
+
 
 }

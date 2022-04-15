@@ -9,15 +9,18 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class File {
+@Table(name="files")
+public class Files {
 
     @Id
     @GeneratedValue
@@ -31,13 +34,14 @@ public class File {
     @Lob
     private byte[] data;
 
-    public File(String fileName, String fileType, byte[] data) {
+    public Files(String fileName, String fileType, byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;
         this.data = data;
     }
 
-    @OneToOne(mappedBy = "file")
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     private Student student;
 
 }

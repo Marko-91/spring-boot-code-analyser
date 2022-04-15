@@ -50,5 +50,10 @@ public class StudentServiceImplementation implements StudentService {
         return studentRepository.findById(id).get();
     }
 
+//    @Override
+//    public Student getStudentByFileId(String fileId) {
+//        return studentRepository.getStudentByFileId(fileId);
+//    }
+
 
 }

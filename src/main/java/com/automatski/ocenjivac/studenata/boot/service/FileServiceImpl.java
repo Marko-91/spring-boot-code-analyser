@@ -1,7 +1,6 @@
 package com.automatski.ocenjivac.studenata.boot.service;
 
-import com.automatski.ocenjivac.studenata.boot.entity.File;
-import com.automatski.ocenjivac.studenata.boot.entity.Student;
+import com.automatski.ocenjivac.studenata.boot.entity.Files;
 import com.automatski.ocenjivac.studenata.boot.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,47 +17,49 @@ public class FileServiceImpl implements FileService {
     private FileRepository fileRepository;
 
     @Override
-    public File saveFile(MultipartFile file) throws Exception {
+    public Files saveFile(MultipartFile file) throws Exception {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
+        System.out.println(fileName);
         try {
             if (fileName.contains("..")) {
                 throw new Exception("File name contains invalid path sequence");
             }
 
-            File l_file = new File(fileName, file.getContentType(), file.getBytes());
+            Files l_files = new Files(fileName, file.getContentType(), file.getBytes());
+            System.out.println(file.getContentType());
 
-            return fileRepository.save(l_file);
+
+            return fileRepository.save(l_files);
         } catch (Exception e) {
             throw new Exception("Could not save file");
         }
     }
 
     @Override
-    public File getFile(String fileId) throws Exception {
+    public Files getFile(String fileId) throws Exception {
         return fileRepository.findById(fileId)
                 .orElseThrow(() -> new Exception("File not found with id: " + fileId));
     }
 
     @Override
     public String getFileContentById(String fileId) {
-        File file = fileRepository.findById(fileId).get();
+        Files files = fileRepository.findById(fileId).get();
 
-        return new String(file.getData(), StandardCharsets.UTF_8);
+        return new String(files.getData(), StandardCharsets.UTF_8);
     }
 
     @Override
-    public ResponseEntity<File> evaluateFile(String fileId, File file) {
-        File l_file = fileRepository.findById(fileId).get();
-        l_file.setGrade(oceniRad(getFileContentById(fileId)));
+    public ResponseEntity<Files> evaluateFile(String fileId, Files files) {
+        Files l_files = fileRepository.findById(fileId).get();
+        l_files.setGrade(oceniRad(getFileContentById(fileId)));
 
-        File updatedFile = fileRepository.save(l_file);
-        return ResponseEntity.ok(updatedFile);
+        Files updatedFiles = fileRepository.save(l_files);
+        return ResponseEntity.ok(updatedFiles);
     }
 
     private String oceniRad(String fileContentById) {
         //analiza koda
-        return null;
+        return "5";
     }
 
 }

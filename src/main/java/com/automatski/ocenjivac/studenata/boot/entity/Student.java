@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,8 +28,7 @@ public class Student {
     private String name;
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "file_id", referencedColumnName = "id")
-    private File file;
+    @OneToMany(mappedBy = "student",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Files> files;
 
 }

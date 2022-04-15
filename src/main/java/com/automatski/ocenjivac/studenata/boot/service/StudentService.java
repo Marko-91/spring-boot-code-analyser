@@ -18,6 +18,7 @@ public interface StudentService {
 
     Student saveStudent(Student l_student);
 
-
     Student fetchStudentById(Long id);
+
+    //Student getStudentByFileId(String fileId);
 }
