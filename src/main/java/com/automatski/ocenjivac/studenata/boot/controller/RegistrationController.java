@@ -51,8 +51,14 @@ public class RegistrationController {
     }
 
     @GetMapping("/student/{id}")
-    public Student getById(@PathVariable("id") Long id) throws IOException {
+    public Student getById(@PathVariable("id") Long id) {
         return studentService.fetchStudentById(id);
+    }
+
+    @GetMapping("/student/{firstName}{lastName}")
+    public Student getStudentByFirstNameAndLastName(@PathVariable("firstName") String firstName,
+                                                    @PathVariable("lastName") String lastName) {
+        return studentService.findStudentByFirstNameAndLastName(firstName, lastName);
     }
 
 //    @GetMapping("/student/files/{fileId}")

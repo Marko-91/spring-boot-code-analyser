@@ -24,7 +24,7 @@ public class FileServiceImpl implements FileService {
         System.out.println(fileName);
         try {
             if (fileName.contains("..")) {
-                throw new Exception("File name contains invalid path sequence");
+                throw new Exception("File firstName contains invalid path sequence");
             }
 
             Files l_files = new Files(fileName, file.getContentType(), file.getBytes());
@@ -39,26 +39,27 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Files getFile(String fileId) throws Exception {
+    public Files getFile(Long fileId) throws Exception {
         return fileRepository.findById(fileId)
                 .orElseThrow(() -> new Exception("File not found with id: " + fileId));
     }
 
     @Override
-    public String getFileContentById(String fileId) {
+    public String getFileContentById(Long fileId) {
         Files files = fileRepository.findById(fileId).get();
 
         return new String(files.getData(), StandardCharsets.UTF_8);
     }
 
-    @Override
-    public ResponseEntity<Files> evaluateFile(String fileId, Files files) {
-        Files l_files = fileRepository.findById(fileId).get();
-        l_files.setGrade(oceniRad(getFileContentById(fileId)));
 
-        Files updatedFiles = fileRepository.save(l_files);
-        return ResponseEntity.ok(updatedFiles);
-    }
+//    @Override
+//    public ResponseEntity<Files> evaluateFile(Long fileId, Files files) {
+//        Files l_files = fileRepository.findById(fileId).get();
+//        l_files.setGrade(oceniRad(getFileContentById(fileId)));
+//
+//        Files updatedFiles = fileRepository.save(l_files);
+//        return ResponseEntity.ok(updatedFiles);
+//    }
 
 
 

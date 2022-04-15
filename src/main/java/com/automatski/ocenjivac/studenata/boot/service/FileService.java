@@ -10,11 +10,10 @@ import java.util.List;
 public interface FileService {
     Files saveFile(MultipartFile file) throws Exception;
 
-    Files getFile(String fileId) throws Exception;
+    Files getFile(Long fileId) throws Exception;
 
-    String getFileContentById(String fileId);
+    String getFileContentById(Long fileId);
 
-    ResponseEntity<Files> evaluateFile(String fileId, Files files);
 
 
 }

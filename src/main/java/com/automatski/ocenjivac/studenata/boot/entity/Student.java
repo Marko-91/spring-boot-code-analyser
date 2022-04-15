@@ -1,7 +1,6 @@
 package com.automatski.ocenjivac.studenata.boot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +26,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
 
     @OneToMany(mappedBy = "student",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)

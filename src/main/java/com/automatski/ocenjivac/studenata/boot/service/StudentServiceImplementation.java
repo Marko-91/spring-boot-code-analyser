@@ -28,7 +28,7 @@ public class StudentServiceImplementation implements StudentService {
     public ResponseEntity<Student> editStudent(Long studentId, Student student) {
         Student l_student = studentRepository.findById(studentId).get();
         l_student.setEmail(student.getEmail());
-        l_student.setName(student.getName());
+        l_student.setFirstName(student.getFirstName());
 
         Student updatedStudent = studentRepository.save(l_student);
         return ResponseEntity.ok(updatedStudent);
@@ -53,6 +53,13 @@ public class StudentServiceImplementation implements StudentService {
     @Override
     public List<String> getFileNamesByStudentId(Long studentId) {
         return studentRepository.findAllFilesByStudentId(studentId);
+    }
+
+    @Override
+    public Student findStudentByFirstNameAndLastName(String firstName, String lastName) {
+        System.out.println(studentRepository.findStudentByFirstNameAndLastNameTest(firstName, lastName));
+        return fetchStudentById(
+                studentRepository.findStudentByFirstNameAndLastNameTest(firstName, lastName));
     }
 
 //    @Override

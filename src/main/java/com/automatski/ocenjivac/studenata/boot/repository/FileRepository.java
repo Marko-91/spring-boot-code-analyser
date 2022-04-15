@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface FileRepository extends JpaRepository<Files, String> {
+public interface FileRepository extends JpaRepository<Files, Long> {
 
     @Query(value = "SELECT file_name FROM files WHERE student_id = ?1", nativeQuery = true)
     List<String> findAllFilesByStudentId(Long studentId);

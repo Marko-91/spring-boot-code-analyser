@@ -11,4 +11,7 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT file_name FROM files WHERE student_id = ?1", nativeQuery = true)
     List<String> findAllFilesByStudentId(Long studentId);
+
+    @Query(value = "SELECT id FROM student WHERE first_name = ?1 AND last_name = ?2", nativeQuery = true)
+    Long findStudentByFirstNameAndLastNameTest(String firstName, String lastName);
 }
