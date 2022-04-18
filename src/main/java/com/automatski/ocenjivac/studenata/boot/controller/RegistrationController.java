@@ -1,8 +1,6 @@
 package com.automatski.ocenjivac.studenata.boot.controller;
 
-import com.automatski.ocenjivac.studenata.boot.StudentResponseData;
 import com.automatski.ocenjivac.studenata.boot.entity.Student;
-import com.automatski.ocenjivac.studenata.boot.service.FileService;
 import com.automatski.ocenjivac.studenata.boot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,18 +32,18 @@ public class RegistrationController {
         return studentService.fetchAllStudents();
     }
 
-    @PostMapping("/add-student")
+    @PostMapping("/register")
     public Student addStudent(@RequestBody Student l_student, BindingResult result) throws IOException {
         return studentService.saveStudent(l_student);
     }
 
-    @PutMapping("/edit/{id}")
+    @PutMapping("/student/edit/{id}")
     public ResponseEntity<Student> editStudent(@PathVariable("id") long id,
                                                @RequestBody Student student, BindingResult result) {
         return studentService.editStudent(id, student);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/student/delete/{id}")
     public void deleteStudent(@PathVariable("id") long id) {
         studentService.deleteStudentById(id);
     }
@@ -55,25 +53,10 @@ public class RegistrationController {
         return studentService.fetchStudentById(id);
     }
 
-    @GetMapping("/student/{firstName}{lastName}")
-    public Student getStudentByFirstNameAndLastName(@PathVariable("firstName") String firstName,
-                                                    @PathVariable("lastName") String lastName) {
-        return studentService.findStudentByFirstNameAndLastName(firstName, lastName);
-    }
-
-//    @GetMapping("/student/files/{fileId}")
-//    public Student getStudentByFileId(@PathVariable("fileId") Long fileId) throws IOException {
-//        return studentService.getStudentByFileId(fileId);
-//    }
-
     @GetMapping("/testGetFileNames/{studentId}")
     public String downloadFile(@PathVariable Long studentId) throws Exception {
 
         List<String> s = studentService.getFileNamesByStudentId(studentId);
         return s.toString();
     }
-
-
-
-
 }

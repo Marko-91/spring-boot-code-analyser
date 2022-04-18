@@ -10,6 +10,8 @@ import java.util.List;
 public interface FileService {
     Files saveFile(MultipartFile file) throws Exception;
 
+    Files saveFile(MultipartFile file, Long studentId) throws Exception;
+
     Files getFile(Long fileId) throws Exception;
 
     String getFileContentById(Long fileId);

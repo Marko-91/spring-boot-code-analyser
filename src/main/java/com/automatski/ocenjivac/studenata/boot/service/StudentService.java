@@ -21,9 +21,4 @@ public interface StudentService {
     Student fetchStudentById(Long id);
 
     List<String> getFileNamesByStudentId(Long studentId);
-
-    Student findStudentByFirstNameAndLastName(String firstName, String lastName);
-
-
-    //Student getStudentByFileId(String fileId);
 }

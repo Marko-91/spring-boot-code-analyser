@@ -1,4 +1,4 @@
-package com.automatski.ocenjivac.studenata.boot;
+package com.automatski.ocenjivac.studenata.boot.responseModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

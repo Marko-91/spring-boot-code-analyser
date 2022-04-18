@@ -54,23 +54,4 @@ public class StudentServiceImplementation implements StudentService {
     public List<String> getFileNamesByStudentId(Long studentId) {
         return studentRepository.findAllFilesByStudentId(studentId);
     }
-
-    @Override
-    public Student findStudentByFirstNameAndLastName(String firstName, String lastName) {
-        System.out.println(studentRepository.findStudentByFirstNameAndLastNameTest(firstName, lastName));
-        return fetchStudentById(
-                studentRepository.findStudentByFirstNameAndLastNameTest(firstName, lastName));
-    }
-
-//    @Override
-//    public Student getStudentByFileId(Long fileId) {
-//        return studentRepository.getStudentByFileId(fileId);
-//    }
-
-//    @Override
-//    public Student getStudentByFileId(String fileId) {
-//        return studentRepository.getStudentByFileId(fileId);
-//    }
-
-
 }

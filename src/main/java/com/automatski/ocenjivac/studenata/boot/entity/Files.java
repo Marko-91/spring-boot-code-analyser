@@ -44,4 +44,11 @@ public class Files {
     @JoinColumn(name = "student_id")
     private Student student;
 
+    public Files(String fileName, String fileType, String grade, byte[] data, Student student) {
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.grade = grade;
+        this.data = data;
+        this.student = student;
+    }
 }

@@ -16,13 +16,14 @@ public class TestCodeParser {
         GroovyClassLoader gcl = new GroovyClassLoader();
         Class clazz = gcl.parseClass(getCode());
         Object invocable = clazz.getDeclaredConstructor().newInstance(); //the new instance of the given class
-        System.out.println("The class firstName is: " + clazz.getName());
+        System.out.println("The class firstName is: " + clazz.getSimpleName());
         HashMap<String, Class<?>[]> resultMap = parseCodeTemplate(getCode());
         Method nadjiBroj = clazz.getDeclaredMethod("nadjiNajveciBroj", resultMap.get("nadjiNajveciBroj"));
         Field f = clazz.getField("arg1");
         Object localArgs = f.get(invocable);
         Object result = nadjiBroj.invoke(invocable, localArgs);
         System.out.println(result);
+        System.out.println(result instanceof Integer);
 
 
     }
