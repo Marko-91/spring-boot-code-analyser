@@ -44,7 +44,6 @@ public class StudentServiceImplementation implements StudentService {
         return studentRepository.save(l_student);
     }
 
-
     @Override
     public Student fetchStudentById(Long id) {
         return studentRepository.findById(id).get();

@@ -33,7 +33,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public Student addStudent(@RequestBody Student l_student, BindingResult result) throws IOException {
+    public Student addStudent(@RequestBody Student l_student, BindingResult result) {
         return studentService.saveStudent(l_student);
     }
 

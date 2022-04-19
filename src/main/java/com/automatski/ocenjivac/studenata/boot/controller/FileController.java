@@ -1,8 +1,11 @@
 package com.automatski.ocenjivac.studenata.boot.controller;
 
+import com.automatski.ocenjivac.studenata.boot.entity.SourceCode;
+import com.automatski.ocenjivac.studenata.boot.error.SourceCodeNotFoundException;
 import com.automatski.ocenjivac.studenata.boot.responseModel.ResponseData;
 import com.automatski.ocenjivac.studenata.boot.entity.Files;
 import com.automatski.ocenjivac.studenata.boot.service.FileService;
+import com.automatski.ocenjivac.studenata.boot.service.SourceCodeService;
 import groovy.lang.GroovyClassLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -25,14 +28,42 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    private final GroovyClassLoader loader = new GroovyClassLoader();
+    @Autowired
+    SourceCodeService sourceCodeService;
 
     @PostMapping(path = "/student/{id}/upload", consumes = {MULTIPART_FORM_DATA_VALUE})
     public ResponseData uploadFile(@PathVariable("id") Long studentId,
-                                   @RequestParam("file") MultipartFile file) throws Exception {
+                                   @RequestParam("file") MultipartFile file) throws Exception, SourceCodeNotFoundException {
         Files l_files = null;
 
         l_files = fileService.saveFile(file, studentId);
+        SourceCode l_sourceCodeFile = new SourceCode(fileService.getFileContentById(l_files.getId()),
+                fileService.getFile(l_files.getId()));
+
+        sourceCodeService.saveSourceFile(l_sourceCodeFile);
+
+        String downloadUrl = "";
+        downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/download/")
+                .path(String.valueOf(l_files.getId()))
+                .toUriString();
+
+        return new ResponseData(file.getName(),
+                downloadUrl,
+                file.getContentType(),
+                file.getSize());
+    }
+
+    @PostMapping(path = "/template", consumes = {MULTIPART_FORM_DATA_VALUE})
+    public ResponseData uploadTemplateFile(@RequestParam("file") MultipartFile file)
+            throws Exception {
+        Files l_files = null;
+
+        l_files = fileService.saveFile(file);
+        SourceCode l_sourceCodeFile = new SourceCode(fileService.getFileContentById(l_files.getId()),
+                fileService.getFile(l_files.getId()));
+
+        sourceCodeService.saveSourceFile(l_sourceCodeFile);
 
         String downloadUrl = "";
         downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -48,8 +79,7 @@ public class FileController {
 
     @GetMapping("/file/{id}")
     public String getFileContentById(@PathVariable("id") Long fileId) {
-        String soruceCode = fileService.getFileContentById(fileId);
-        return soruceCode;
+        return fileService.getFileContentById(fileId);
     }
 
     @GetMapping("/download/{fileId}")

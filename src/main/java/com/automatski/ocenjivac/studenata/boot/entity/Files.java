@@ -1,19 +1,25 @@
 package com.automatski.ocenjivac.studenata.boot.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Data
@@ -51,4 +57,8 @@ public class Files {
         this.data = data;
         this.student = student;
     }
+
+    @OneToOne(mappedBy = "files",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private SourceCode sourceCode;
 }
