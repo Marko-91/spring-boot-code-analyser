@@ -1,0 +1,17 @@
+package com.itbootcamp.test;
+
+import java.util.Arrays;
+public class MarkoStankovic {
+    public static String[] methods = new String[]{"nadjiNajveciBroj"};
+    public static int[] arg1 = new int[]{1, 2, -1000, 1000};
+    public int[] nadjiNajveciBrojIn1 = new int[]{1, 2, -1000, 1000};
+    public int nadjiNajveciBrojOut1 = 1000;
+    public static int nadjiNajveciBroj(int[] array) {
+        int max = array[0];
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] > max) max = array[i];
+        }
+
+       return max;
+    }
+}

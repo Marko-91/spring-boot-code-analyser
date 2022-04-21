@@ -1,38 +1,46 @@
 package com.automatski.ocenjivac.studenata.boot.internal;
 
 import groovy.lang.GroovyClassLoader;
+import org.junit.jupiter.api.Test;
+import org.apache.commons.io.IOUtils;
 
-import javax.tools.JavaCompiler;
-import javax.tools.ToolProvider;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class TestCodeParser {
+
+    String testProgram1 = "program1.txt";
+
     /**
      Unit test for class loader with groovy
      */
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException, IOException, ClassNotFoundException {
+    @Test
+    public void myInternalTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException, IOException, ClassNotFoundException, URISyntaxException {
+        //TOLE: trudi se da imas samo jednu main metodu u aplikaciji (IDE - Intellij moze da protumaci pogresno). Nije greska, samo good practice.
+        //Koristi @Test anotaciju umesto toga, pokreces ih ili kao prave testove ili desno dugme iz Idea i run konkretne metode
+
         //GroovyShell shell = new GroovyShell();
         //upplier<String> supplier = Reflect.compile("", getCode()).create().call("");
         GroovyClassLoader gcl = new GroovyClassLoader();
-        Class clazz = gcl.parseClass(getCode());
+
+        String programCode = getStringFromFile(testProgram1);
+
+        Class clazz = gcl.parseClass(programCode);
+
         Object invocable = clazz.getDeclaredConstructor().newInstance(); //the new instance of the given class
-        HashMap<String, Class<?>[]> resultMap = parseCodeTemplate(getCode());
+//        HashMap<String, Class<?>[]> resultMap = parseCodeTemplate(getCode()); //unused
         //Method nadjiBroj = clazz.getDeclaredMethod("nadjiNajveciBroj", resultMap.get("nadjiNajveciBroj"));
         Field methods = clazz.getField("methods");
         Object x = methods.get(invocable);
         String[] arr = (String[]) x;
-        System.out.println(x);
+        System.out.println(Arrays.toString(arr));
         Method[] tt = clazz.getMethods();
         for (String m : arr) {
             //get args
@@ -65,24 +73,9 @@ public class TestCodeParser {
 
 
     }
-    public static String getCode() {
-        return "package com.itbootcamp.test;\n" +
-                "\n" +
-                "import java.util.Arrays;\n" +
-                "public class MarkoStankovic {\n" +
-                "public static String[] methods = new String[]{\"nadjiNajveciBroj\"};" +
-                "public static int[] arg1 = new int[]{1, 2, -1000, 1000}; \n" +
-                "    public int[] nadjiNajveciBrojIn1 = new int[]{1, 2, -1000, 1000};\n" +
-                "    public int nadjiNajveciBrojOut1 = 1000;" +
-                "    public static int nadjiNajveciBroj(int[] array) {\n" +
-                "        int max = array[0];\n" +
-                "        for (int i = 0; i < array.length; i++) {\n" +
-                "            if (array[i] > max) max = array[i];\n" +
-                "        }\n" +
-                "\n" +
-                "        return max;\n" +
-                "    }\n" +
-                "}\n";
+
+    private String getStringFromFile(String filename) throws IOException {
+        return IOUtils.toString(this.getClass().getClassLoader().getResource(filename),"UTF-8");
     }
 
     /**
@@ -90,10 +83,10 @@ public class TestCodeParser {
      * @param codeTemplate the code as a string
      * @return key value pairs that can be consumed
      */
-    public static HashMap<String, Class<?>[]> parseCodeTemplate(String codeTemplate) {
+    private HashMap<String, Class<?>[]> parseCodeTemplate(String codeTemplate) throws IOException {
         HashMap<String, Class<?>[]> map = new HashMap<>();
         GroovyClassLoader gcl = new GroovyClassLoader();
-        Class clazz = gcl.parseClass(getCode());
+        Class clazz = gcl.parseClass(getStringFromFile(testProgram1));
         for (Method m : clazz.getMethods()) {
             map.put(m.getName(), m.getParameterTypes());
         }
